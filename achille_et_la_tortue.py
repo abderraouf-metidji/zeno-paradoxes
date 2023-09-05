@@ -3,7 +3,7 @@ import sys
 
 pygame.init()
 
-WIDTH, HEIGHT = 400, 400
+WIDTH, HEIGHT = 800, 400
 WHITE = (255, 255, 255)
 
 class Runner:
@@ -31,9 +31,9 @@ turtle = Runner("Turtle", 0.5, "images/turtle.png")
 
 clock = pygame.time.Clock()
 
-turtle.position = 50
+turtle.position = 500
 
-race = 100
+race = 10000
 
 while achille.position < race:
 
