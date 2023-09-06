@@ -5,6 +5,10 @@ pygame.init()
 
 WIDTH, HEIGHT = 500, 300
 WHITE = (255, 255, 255)
+BLACK = 0, 0, 0
+
+font = pygame.font.Font(None, 36)
+text_color = BLACK
 
 class Archery:
     def __init__(self, name, speed, position, image_path):
@@ -45,9 +49,14 @@ while arrow.position < target.position:
     screen.blit(target.image, target.rect)
     screen.blit(arrow.image, arrow.rect)
 
+    arrow.print_position()
+
+    arrow_text = font.render(f"{arrow.name}: {arrow.position} meters", True, text_color)
+
+    screen.blit(arrow_text, (10, 10))
+
     pygame.display.flip()
 
-    arrow.print_position()
     clock.tick(1)
 
 print("The arrow hit the target!")

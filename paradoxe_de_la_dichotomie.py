@@ -4,7 +4,11 @@ import sys
 pygame.init()
 
 WIDTH, HEIGHT = 800, 1000
-WHITE = 255, 255, 255
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+font = pygame.font.Font(None, 36)
+text_color = BLACK
 
 class Throw:
     def __init__(self, name, position, image_path):
@@ -27,7 +31,6 @@ pygame.display.set_caption("Dichotomie")
 
 clock = pygame.time.Clock()
 
-
 tree = Throw("Tree", 100, "images/tree.png")
 rock = Throw("Rock", 0, "images/rock.png")
 
@@ -45,9 +48,14 @@ while rock.position < tree.position:
     screen.blit(tree.image, tree.rect)
     screen.blit(rock.image, rock.rect)
 
+    rock.print_position()
+
+    rock_text = font.render(f"{rock.name}: {rock.position} meters", True, text_color)
+    
+    screen.blit(rock_text, (10, 10))
+
     pygame.display.flip()
 
-    rock.print_position()
     clock.tick(1)
 
 print("The rock hit the tree!")
