@@ -63,7 +63,9 @@ In this case, while running the script we can see that the rock is getting close
 `The rock is at 100.0 meters.`
 `The rock hit the tree!`
 
-Therefore, the rock reaches the tree and the paradox implying that it will never reach the tree is false. 
+Therefore, the rock reaches the tree and the paradox implying that it will never reach the tree is false.
+
+One could argue that if the rock is infinitely small then it will never reach the tree since its size will always be smaller than the distance left between itself and the tree.
 
 #### The target and arrow
  In this paradox we will use a simple python script that show the position of the arrow within each frame. We can see that the arrow moves from position a to position b to c etc. but within each frame its position is fixed since time is "stopped". 
