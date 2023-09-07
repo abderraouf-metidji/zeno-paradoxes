@@ -3,7 +3,7 @@ import sys
 
 pygame.init()
 
-WIDTH, HEIGHT = 500, 300
+WIDTH, HEIGHT = 600, 300
 WHITE = (255, 255, 255)
 BLACK = 0, 0, 0
 
@@ -17,7 +17,7 @@ class Archery:
         self.position = position
         self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
-        self.rect.center = (position, HEIGHT // 2)
+        self.rect.center = (self.position, HEIGHT // 2)
 
     def arrow_position(self):
         self.position += self.speed
@@ -27,39 +27,43 @@ class Archery:
         print(f"The arrow is currently at {self.position} meters.")
         
 
-#Pygame window
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Flying arrow")
+class Shooting:
+    def __init__(self):
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Flying arrow")
+        self.clock = pygame.time.Clock()
+        self.target = Archery("Target", 0, 250, "images/target.png")
+        self.arrow = Archery("Arrow", 25, 0, "images/arrow.png")
 
-clock = pygame.time.Clock()
+    def run(self):
+        while self.arrow.position < self.target.position:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-target = Archery("Target", 0, 250, "images/target.png")
-arrow = Archery("Arrow", 25, 0, "images/arrow.png")
+            self.arrow.arrow_position()
 
-while arrow.position < target.position:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            self.screen.fill(WHITE)
 
-    arrow.arrow_position()
+            self.screen.blit(self.target.image, self.target.rect)
+            self.screen.blit(self.arrow.image, self.arrow.rect)
 
-    screen.fill(WHITE)
+            self.arrow.print_position()
 
-    screen.blit(target.image, target.rect)
-    screen.blit(arrow.image, arrow.rect)
+            arrow_text = font.render(f"{self.arrow.name}: {self.arrow.position} meters", True, text_color)
 
-    arrow.print_position()
+            self.screen.blit(arrow_text, (10, 10))
 
-    arrow_text = font.render(f"{arrow.name}: {arrow.position} meters", True, text_color)
+            pygame.display.flip()
 
-    screen.blit(arrow_text, (10, 10))
+            self.clock.tick(1)
 
-    pygame.display.flip()
+        print("The arrow hit the target!")
 
-    clock.tick(1)
+        pygame.quit()
+        sys.exit()
 
-print("The arrow hit the target!")
-
-pygame.quit()
-sys.exit()
+if __name__ == "__main__":
+    shooting = Shooting()
+    shooting.run()

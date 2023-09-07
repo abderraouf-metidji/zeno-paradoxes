@@ -16,49 +16,52 @@ class Throw:
         self.position = position
         self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
-        self.rect = (position, HEIGHT // 2)
+        self.rect = (self.position, HEIGHT // 2)
 
-    def rock_position(self):
-        rock.position += ((tree.position - rock.position) *0.5)
+    def rock_position(self, target_position):
+        self.position += ((target_position - self.position) * 0.5)
         self.rect = (self.position, HEIGHT // 2)
 
     def print_position(self):
-        print(f"The rock is at {self.position} meters.")
+        print(f"The {self.name} is at {self.position} meters.")
 
-#Pygame window
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Dichotomie")
-
-clock = pygame.time.Clock()
-
-tree = Throw("Tree", 100, "images/tree.png")
-rock = Throw("Rock", 0, "images/rock.png")
-
-while rock.position < tree.position:
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-    rock.rock_position()
-
-    screen.fill(WHITE)
-
-    screen.blit(tree.image, tree.rect)
-    screen.blit(rock.image, rock.rect)
-
-    rock.print_position()
-
-    rock_text = font.render(f"{rock.name}: {rock.position} meters", True, text_color)
+class RockThrowing:
+    def __init__(self):
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Dichotomy")
+        self.rock = Throw("Rock", 0, "images/rock.png")
+        self.tree = Throw("Tree", 10, "images/tree.png")
+        self.clock = pygame.time.Clock()
     
-    screen.blit(rock_text, (10, 10))
+    def run(self):
+        while self.rock.position < self.tree.position:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-    pygame.display.flip()
+            self.rock.rock_position(self.tree.position)
 
-    clock.tick(1)
+            self.screen.fill(WHITE)
 
-print("The rock hit the tree!")
+            self.screen.blit(self.tree.image, self.tree.rect)
+            self.screen.blit(self.rock.image, self.rock.rect)
 
-pygame.quit()
-sys.exit()
+            self.rock.print_position()
+
+            rock_text = font.render(f"{self.rock.name}: {self.rock.position} meters", True, text_color)
+            
+            self.screen.blit(rock_text, (10, 10))
+
+            pygame.display.flip()
+
+            self.clock.tick(1)
+
+        print("The rock hit the tree!")
+
+        pygame.quit()
+        sys.exit()
+
+if __name__ == "__main__":
+    throwing = RockThrowing()
+    throwing.run()
